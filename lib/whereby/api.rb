@@ -23,7 +23,7 @@ module Whereby
       whereby_request(:delete, "meetings/#{id}")
     end
 
-    def recording(room_name)
+    def recordings(room_name)
       whereby_request(:get, "recordings?roomName=#{room_name}")
     end
 
