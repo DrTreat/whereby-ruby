@@ -23,11 +23,19 @@ module Whereby
       whereby_request(:delete, "meetings/#{id}")
     end
 
+    def recording(room_name)
+      whereby_request(:get, "recordings?roomName=#{room_name}")
+    end
+
+    def get_recording_access_link(id)
+      whereby_request(:get, "recordings/#{id}/access-link")
+    end
+
     private
 
     def whereby_request(method, url, options = {})
       url = "#{BASE_URL}/#{url}"
-      result = HTTParty.send(method, url, { headers: headers, body: body(options) })
+      result = HTTParty.send(method, url, { headers:, body: body(options) })
 
       if [200, 201].include? result.code
         JSON.parse(result.body)
@@ -44,8 +52,8 @@ module Whereby
 
     def headers
       {
-          'Content-type' => 'application/json',
-          'Authorization' => "Bearer #{Whereby.api_key}"
+        'Content-type' => 'application/json',
+        'Authorization' => "Bearer #{Whereby.api_key}"
       }
     end
 
@@ -55,6 +63,5 @@ module Whereby
 
       "The API resulted in an unknown status code: #{code}"
     end
-
   end
 end
